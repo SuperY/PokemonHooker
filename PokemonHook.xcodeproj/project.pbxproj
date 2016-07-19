@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B52466C01D33EC2500D0F6B6 /* PokemonHook.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = PokemonHook.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		B52466C01D33EC2500D0F6B6 /* libLocationFaker.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libLocationFaker.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52466C31D33EC2500D0F6B6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B52466C81D33EC2500D0F6B6 /* control.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = control.txt; path = Package/DEBIAN/control.txt; sourceTree = "<group>"; };
 		B52466C91D33EC2500D0F6B6 /* control */ = {isa = PBXFileReference; lastKnownFileType = text; name = control; path = Package/DEBIAN/control; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 		B52466C11D33EC2500D0F6B6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B52466C01D33EC2500D0F6B6 /* PokemonHook.dylib */,
+				B52466C01D33EC2500D0F6B6 /* libLocationFaker.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,7 +171,7 @@
 			);
 			name = PokemonHook;
 			productName = PokemonHook;
-			productReference = B52466C01D33EC2500D0F6B6 /* PokemonHook.dylib */;
+			productReference = B52466C01D33EC2500D0F6B6 /* libLocationFaker.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -291,7 +291,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Miaow Planet Technology Co.,Ltd. (72T9692VHT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -314,7 +314,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Miaow Planet Technology Co.,Ltd. (72T9692VHT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

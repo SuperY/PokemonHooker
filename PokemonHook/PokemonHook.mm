@@ -18,6 +18,36 @@ inline void replaceImplementation(Class newClass, Class hookedClass, SEL sel, IM
     oldImp = method_setImplementation(old, newImp);
 }
 
+#pragma mark  PurchasableItemDetails @ Hook
+@interface PurchasableItemDetailsHook : NSObject
++ (void)priceHook;
+- (NSInteger)price;
+- (void)setPrice:(NSInteger)pri;
+@end
+
+@implementation PurchasableItemDetailsHook
+static IMP PurchasableItemDetails_price = NULL;
+static IMP PurchasableItemDetails_setPrice = NULL;
++ (void)priceHook{
+    Class hookedClass = objc_getClass("PurchasableItemDetails");
+    SEL priceSel = @selector(price);
+    replaceImplementation([self class], hookedClass, priceSel, PurchasableItemDetails_price);
+    SEL setPriceSel = @selector(setPrice:);
+    replaceImplementation([self class], hookedClass, setPriceSel, PurchasableItemDetails_setPrice);
+}
+
+- (NSInteger)price{
+    PurchasableItemDetails_price(self, @selector(price));
+    return 0;
+}
+
+- (void)setPrice:(NSInteger)pri{
+    pri = 0;
+    PurchasableItemDetails_setPrice(self, @selector(setPrice:), pri);
+}
+
+@end
+
 #pragma mark  NIAIosLocationManagerHook @ Hook
 
 @interface NIAIosLocationManagerHook : NSObject
@@ -62,7 +92,7 @@ typedef NS_ENUM (NSUInteger, RockerControlDirection) {
 typedef void (^RockerValueCallback)(RockerControlDirection direction);
 
 #pragma mark  RockerControlView @ interface
-@interface RockerControlView : UIView
+@interface RockerControlView : UIView <UIAlertViewDelegate>
 @property (nonatomic, copy) RockerValueCallback controlCallback;
 @end
 
@@ -76,11 +106,11 @@ static RockerControlView *gameRockerView;
 
 @implementation CLLocation (Swizzle)
 
-//SF
-static float x = -36.851638;
-static float y = 174.765068;
+//SF Ocean Beach
+static float x = 37.769370;
+static float y = -122.510759;
 
-static float version = 167141100;
+static float version = 1607171839;
 
 + (void)load {
     Method m1 = class_getInstanceMethod(self, @selector(coordinate));
@@ -106,7 +136,7 @@ static float version = 167141100;
 
 
     [NIAIosLocationManagerHook locationUpdateHook];
-
+    [PurchasableItemDetailsHook priceHook];
     [self addRockerView];
 }
 
@@ -118,6 +148,8 @@ static float version = 167141100;
     if ([[NSUserDefaults standardUserDefaults] valueForKey:@"_fake_Y"]) {
         y = [[[NSUserDefaults standardUserDefaults] valueForKey:@"_fake_Y"] floatValue];
     }
+    x += [CLLocation randSetpDistance:0.000050 to:-0.000050];
+    y += [CLLocation randSetpDistance:0.000050 to:-0.000050];
     return CLLocationCoordinate2DMake(x, y);
 }
 
@@ -210,7 +242,7 @@ static float version = 167141100;
     [setting setTitle:@"👻" forState:UIControlStateNormal];
     setting.titleLabel.font = [UIFont systemFontOfSize:25.0];
     setting.tag = 201;
-    [setting addTarget:self action:@selector(dismissRocker) forControlEvents:UIControlEventTouchDown];
+    [setting addTarget:self action:@selector(dismissDeadView) forControlEvents:UIControlEventTouchDown];
     [self addSubview:setting];
 
     UIButton *down = [[UIButton alloc] initWithFrame:CGRectMake(50, 100, 50, 50)];
@@ -243,6 +275,16 @@ static float version = 167141100;
     right.tag = 104;
     [right addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchDown];
     [self addSubview:right];
+}
+
+- (void)dismissDeadView {
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Close Current View ?" message:@"Maybe crash..." delegate:self cancelButtonTitle: @"Cancel" otherButtonTitles:@"Remove It!", nil];
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+//    -[USContentUnitViewController dismissControllerAnimated:completion:]:
+//    -[USContentUnitViewController viewDidLoad]:
 }
 
 - (void)dismissRocker {
